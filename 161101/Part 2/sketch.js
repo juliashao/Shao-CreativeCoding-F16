@@ -5,7 +5,7 @@ function setup(){
 	createCanvas(600,600);
 	background(255);
 	for (var i=1; i<9; i+=1){
-		balls.push(new Ball(200 + (2 * i), 300 + (2 * i), .10, .10, 80, 100, 50, 80));
+		balls.push(new Ball(200 + (40 * i), 300 + (40 * i), .10, .10, 80, 100, 50, 80));
 	}
 }
 

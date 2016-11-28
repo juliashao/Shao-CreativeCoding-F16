@@ -4,10 +4,10 @@ var globalData;
 var lat;
 var lng;
 var myData;
+var sunrise;
 
 var h;
 var m;
-
 
 var c1, c2;
 
@@ -45,54 +45,49 @@ function setGradient(x, y, w, h, c1, c2) {
     stroke(c);
     line(x, i, x+w, i);
     }
+
 };
 
 function gotData(myData){
 
 	globalData = myData;
-
 	console.log(globalData);
 
 };
 
 function draw() {
 
-	//my console is able to print the results of the latitude/longitude given, 
-	//but I am having syntax errors when I try to print it onto my canvas
-
-	// sunrise = myData.results.sunrise;
-	// sunset = myData.results.sunset;
-
   // Background
   setGradient(0, 0, width/2, height, b1, b2);
   setGradient(width/2, 0, width/2, height, c2, c1);
 
-  currentTime = h + ":" + m;
+
+  if (m < 10){
+    m = "0" + m
+    currentTime = h + ":" + m;
+  }else {
+    currentTime = h + ":" + m;
+  }
 
   textSize(15);
   stroke(255);
   text('Sunrise and sunset times in New York, New York. Updating in real time (UTC). \n Current time is ' + currentTime, 15, 30);
 
-// //from 4am to 10am, the sun displays at sunrise
-//   if (h >= 4 || h <= 10){
-//   	fill('#ff7351')
-//   	noStroke();
-//   	ellipse(windowWidth/4,windowHeight/2,300);
-//   }
 
-// //from 4pm to 10pm, the sun displays at sunset
-//   if (h >= 16 || h <= 20){
-//   	fill('#ff7351')
-//   	noStroke();
-//   	ellipse(windowWidth/1.4,windowHeight/2,300);
-//   }
+// HERE IS MY PROBLEM!!!!!!
 
-  textSize(40);
-  noFill();
-  stroke(255);
-  text('sunrise',windowWidth/5,windowHeight/2);
-  text('sunset',windowWidth/1.4,windowHeight/2);
+  if (globalData){
+    sunrise = globalData.results.sunrise;
+    sunset = globalData.results.sunset;
 
-
+    textSize(40);
+    noFill();
+    stroke(255);
+    
+    text(sunrise,windowWidth/5,windowHeight/2);
+    text(sunset,windowWidth/1.4,windowHeight/2);
+  } else {
+    text("nooooo", 300, 300);
+  }
 
 }

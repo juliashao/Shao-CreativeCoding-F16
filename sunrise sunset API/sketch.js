@@ -31,8 +31,34 @@ function setup() {
 
   h = hour();
   m = minute();
+    // Background
+  setGradient(0, 0, width/2, height, b1, b2);
+  setGradient(width/2, 0, width/2, height, c2, c1);
 
-  noLoop();
+
+  if (m < 10){
+    m = "0" + m
+    currentTime = h + ":" + m;
+  }else {
+    currentTime = h + ":" + m;
+  }
+
+  textSize(20);
+  stroke(255);
+  text('Sunrise and sunset times in New York, New York. Updating in real time (UTC). \n Current time is ' + currentTime, 15, 30);
+
+
+//from 4am to 10am, the sun displays at sunrise
+  if (h >= 5 && h <= 15){
+    fill('#ff7351')
+    noStroke();
+    ellipse(windowWidth/4,windowHeight/1.3,100,100);
+  } else if (h >= 16 && h <= 20){
+    fill('#ff7351')
+    noStroke();
+    ellipse(windowWidth/1.35,windowHeight/1.3,100,100);
+  }
+
 }
 
 function setGradient(x, y, w, h, c1, c2) {
@@ -46,37 +72,19 @@ function setGradient(x, y, w, h, c1, c2) {
     line(x, i, x+w, i);
     }
 
-};
+}
 
 function gotData(myData){
 
 	globalData = myData;
+  console.log("got data");
 	console.log(globalData);
 
-};
+}
 
 function draw() {
 
-  // Background
-  setGradient(0, 0, width/2, height, b1, b2);
-  setGradient(width/2, 0, width/2, height, c2, c1);
-
-
-  if (m < 10){
-    m = "0" + m
-    currentTime = h + ":" + m;
-  }else {
-    currentTime = h + ":" + m;
-  }
-
-  textSize(15);
-  stroke(255);
-  text('Sunrise and sunset times in New York, New York. Updating in real time (UTC). \n Current time is ' + currentTime, 15, 30);
-
-
-// HERE IS MY PROBLEM!!!!!!
-
-  if (globalData){
+  if(globalData){
     sunrise = globalData.results.sunrise;
     sunset = globalData.results.sunset;
 
@@ -84,10 +92,10 @@ function draw() {
     noFill();
     stroke(255);
     
-    text(sunrise,windowWidth/5,windowHeight/2);
-    text(sunset,windowWidth/1.4,windowHeight/2);
-  } else {
-    text("nooooo", 300, 300);
-  }
+    text("today's sunrise time: ", windowWidth/6.9, windowHeight/2.3);
+    text("today's sunset time: ", windowWidth/1.5, windowHeight/2.3)
+    text(sunrise, windowWidth/5.2, windowHeight/2);
+    text(sunset, windowWidth/1.4, windowHeight/2);
+  } 
 
 }

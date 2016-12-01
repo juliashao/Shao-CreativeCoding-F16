@@ -5,6 +5,10 @@ var lat;
 var lng;
 var myData;
 var sunrise;
+var latbutton;
+var lngbutton;
+var myInputValue;
+var myInputValue2;
 
 var h;
 var m;
@@ -13,15 +17,6 @@ var c1, c2;
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
-
-  baseUrl = 'http://api.sunrise-sunset.org/json'
-
-  lat = "40.7128"
-  lng = "74.0059"
-
-  url = baseUrl + "?lat=" + lat + "&lng=" + lng +"&date=today";
-
-  myData = loadJSON(url, gotData);
 
   // Define colors
   b1 = color('#9dcce6');
@@ -43,10 +38,20 @@ function setup() {
     currentTime = h + ":" + m;
   }
 
-  textSize(20);
+  textSize(18);
   stroke(255);
-  text('Sunrise and sunset times in New York, New York. Updating in real time (UTC). \n Current time is ' + currentTime, 15, 30);
+  lat = createInput("Enter a latitude.");
+  lng = createInput("Enter a longitude.");
+  lat.position(25,30);
+  lng.position(25,50);
+  
+  latbutton = createButton("submit");
+  latbutton.position(175,40);
+  latbutton.mousePressed(readValue);
+  myInputValue = ""
+  myInputValue2 = ""
 
+  baseUrl = 'http://api.sunrise-sunset.org/json'
 
 //from 4am to 10am, the sun displays at sunrise
   if (h >= 5 && h <= 15){
@@ -58,6 +63,20 @@ function setup() {
     noStroke();
     ellipse(windowWidth/1.35,windowHeight/1.3,100,100);
   }
+
+}
+
+function readValue(){
+
+  myInputValue = lat.value();
+  console.log(myInputValue);
+
+  myInputValue2 = lng.value();
+  console.log(myInputValue2);
+
+  url = baseUrl + "?lat=" + myInputValue + "&lng=" + myInputValue2 +"&date=today";
+  myData = loadJSON(url, gotData);
+  text('Sunrise and sunset times in ' + myInputValue + ',' + myInputValue2 + '. Updating in real time (UTC). \n Current time is ' + currentTime, 25, 100);
 
 }
 
@@ -77,7 +96,6 @@ function setGradient(x, y, w, h, c1, c2) {
 function gotData(myData){
 
 	globalData = myData;
-  console.log("got data");
 	console.log(globalData);
 
 }
